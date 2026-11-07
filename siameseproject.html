@@ -1,0 +1,880 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SiameseProject | Cataclysm</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap');
+
+:root {
+    --gold: #d6a04c;
+    --gold-light: #f1c779;
+    --red: #9d291c;
+    --bg: #090a0c;
+    --panel: #141416;
+    --border: #443021;
+    --text: #e4ded3;
+    --muted: #96918a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
+}
+
+/* BACKGROUND */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse at 50% 0%, #68241635, transparent 55%),
+        radial-gradient(ellipse at 10% 90%, #a64d1710, transparent 45%);
+}
+
+/* NAVIGATION */
+
+header {
+    height: 85px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(8,8,9,.96);
+    border-bottom: 1px solid #51351e;
+    box-shadow: 0 5px 25px #0009;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8%;
+}
+
+.logo {
+    font-family: 'Cinzel', serif;
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--gold-light);
+    letter-spacing: 2px;
+    white-space: nowrap;
+}
+
+.logo span {
+    color: #a93c23;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+nav button {
+    background: none;
+    border: none;
+    color: #bdb6aa;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: .25s;
+    padding: 12px 0;
+    position: relative;
+}
+
+nav button:hover,
+nav button.active {
+    color: var(--gold-light);
+}
+
+nav button.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--gold);
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--gold);
+    padding: 9px 13px;
+    cursor: pointer;
+}
+
+/* PAGE SYSTEM */
+
+.page {
+    display: none;
+    min-height: 100vh;
+    padding-top: 85px;
+    animation: appear .45s ease;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* HOME */
+
+.hero {
+    min-height: 690px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 50% 75%, #9e351c35, transparent 45%),
+        linear-gradient(180deg, #1c1715, #090a0c);
+    border-bottom: 1px solid #56341d;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 650px;
+    height: 650px;
+    border: 1px solid #b4773030;
+    transform: rotate(45deg);
+    box-shadow:
+        0 0 100px #a33a1820,
+        inset 0 0 100px #a33a1810;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 130px;
+    background: linear-gradient(transparent, #090a0c);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 850px;
+}
+
+.subtitle {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    letter-spacing: 5px;
+    font-size: 12px;
+    margin-bottom: 30px;
+}
+
+.hero h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(43px, 8vw, 88px);
+    line-height: 1.2;
+    font-weight: 800;
+    color: #e9d9bd;
+    text-shadow: 0 5px 25px #000;
+}
+
+.hero h1 span {
+    display: block;
+    color: #d48b3e;
+}
+
+.hero-description {
+    color: #b6aca0;
+    max-width: 620px;
+    margin: 25px auto 35px;
+    font-size: 16px;
+    line-height: 1.9;
+}
+
+.gold-line {
+    width: 130px;
+    height: 2px;
+    margin: 25px auto;
+    background: linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+
+/* BUTTONS */
+
+.button {
+    display: inline-block;
+    padding: 16px 30px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid #a36e32;
+    transition: .25s;
+}
+
+.button-gold {
+    background: linear-gradient(135deg,#e9bd70,#a86c28);
+    color: #170e08;
+}
+
+.button-gold:hover {
+    background: #ffe0a1;
+    box-shadow: 0 0 25px #d28c3745;
+    transform: translateY(-3px);
+}
+
+.button-dark {
+    background: #171413;
+    color: var(--gold-light);
+}
+
+.button-dark:hover {
+    background: #302016;
+}
+
+/* GENERAL SECTIONS */
+
+.section {
+    padding: 100px 8%;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.section-header small {
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    letter-spacing: 4px;
+    font-size: 11px;
+}
+
+.section-header h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(30px,5vw,43px);
+    margin-top: 17px;
+    color: #e5d5b9;
+}
+
+.section-header p {
+    color: var(--muted);
+    margin-top: 15px;
+    line-height: 1.8;
+}
+
+/* FEATURE */
+
+.feature {
+    max-width: 850px;
+    margin: auto;
+    padding: 40px;
+    text-align: center;
+    background: linear-gradient(135deg,#1c1714,#111113);
+    border: 1px solid var(--border);
+}
+
+.feature h3 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold-light);
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.feature p {
+    color: #aaa198;
+    line-height: 1.9;
+    font-size: 14px;
+}
+
+/* DOWNLOAD */
+
+.download-grid {
+    max-width: 850px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 25px;
+}
+
+.download-card {
+    background: linear-gradient(145deg,#1b1917,#101113);
+    border: 1px solid var(--border);
+    padding: 45px 25px;
+    text-align: center;
+    transition: .3s;
+}
+
+.download-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-5px);
+}
+
+.download-card h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 23px;
+    margin-bottom: 15px;
+}
+
+.download-card p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+.status {
+    display: block;
+    color: #82b77b;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-bottom: 22px;
+}
+
+.status.soon {
+    color: #c18c54;
+}
+
+.disabled {
+    display: inline-block;
+    padding: 15px 25px;
+    background: #242322;
+    border: 1px solid #4b4034;
+    color: #777;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+/* NEWS */
+
+.news-card {
+    max-width: 850px;
+    margin: auto;
+    background: #171513;
+    border: 1px solid var(--border);
+    padding: 35px;
+}
+
+.news-date {
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.news-card h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 25px;
+    color: #e8c98e;
+    margin: 18px 0;
+}
+
+.news-card p {
+    color: #aaa198;
+    line-height: 1.9;
+    font-size: 14px;
+}
+
+/* CREDITS */
+
+.credits-grid {
+    max-width: 800px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 25px;
+}
+
+.credit-card {
+    background: #171513;
+    border: 1px solid var(--border);
+    padding: 40px 25px;
+    text-align: center;
+}
+
+.credit-card h3 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold-light);
+    margin-bottom: 15px;
+}
+
+.credit-card p {
+    color: #aaa198;
+    line-height: 1.8;
+    font-size: 13px;
+}
+
+/* REVELATION */
+
+.revelation {
+    min-height: calc(100vh - 85px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    background:
+        radial-gradient(ellipse at center,#69281740,transparent 60%),
+        linear-gradient(#17100e,#090a0c);
+    position: relative;
+    overflow: hidden;
+}
+
+.revelation::before {
+    content: "";
+    position: absolute;
+    width: 550px;
+    height: 550px;
+    border: 1px solid #b17a3630;
+    transform: rotate(45deg);
+}
+
+.revelation-content {
+    position: relative;
+    z-index: 1;
+    max-width: 750px;
+}
+
+.revelation-label {
+    font-family: 'Cinzel', serif;
+    color: #c58c48;
+    letter-spacing: 7px;
+    font-size: 12px;
+    margin-bottom: 35px;
+}
+
+.revelation h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(45px,8vw,75px);
+    color: #e4d1b1;
+    text-shadow: 0 5px 30px #000;
+}
+
+.revelation h2 span {
+    display: block;
+    color: #b34b2a;
+}
+
+.revelation p {
+    color: #b6a99a;
+    font-size: 15px;
+    line-height: 2;
+    margin-top: 30px;
+}
+
+/* FOOTER */
+
+footer {
+    background: #08090b;
+    border-top: 1px solid #46301e;
+    text-align: center;
+    padding: 35px 15px;
+    color: #77716a;
+    font-size: 11px;
+    line-height: 2;
+}
+
+footer strong {
+    color: var(--gold);
+}
+
+/* MOBILE */
+
+@media(max-width:800px) {
+
+    header {
+        padding: 0 20px;
+    }
+
+    .logo {
+        font-size: 17px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    nav {
+        display: none;
+        position: absolute;
+        top: 85px;
+        left: 0;
+        right: 0;
+        background: #0b0b0d;
+        padding: 20px;
+        flex-direction: column;
+        gap: 5px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    nav.open {
+        display: flex;
+    }
+
+    nav button {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .download-grid,
+    .credits-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        min-height: 650px;
+    }
+
+    .section {
+        padding: 75px 6%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">SIAMESE<span>PROJECT</span></div>
+
+    <button class="menu-toggle" onclick="toggleMenu()">MENU</button>
+
+    <nav id="navigation">
+        <button class="active" onclick="showPage('home',this)">Home</button>
+        <button onclick="showPage('download',this)">Download</button>
+        <button onclick="showPage('credits',this)">Credits</button>
+        <button onclick="showPage('news',this)">News</button>
+        <button onclick="showPage('revelation',this)">Revelation</button>
+    </nav>
+
+</header>
+
+<!-- HOME -->
+
+<div class="page active" id="home">
+
+    <div class="hero">
+
+        <div class="hero-content">
+
+            <div class="subtitle">CATACLYSM TALENT CALCULATOR</div>
+
+            <h1>
+                SIAMESE
+                <span>PROJECT</span>
+            </h1>
+
+            <div class="gold-line"></div>
+
+            <p class="hero-description">
+                A new way to plan your Cataclysm character.
+                Discover the Talent Calculator, create your builds
+                and prepare for your next adventure.
+            </p>
+
+            <button class="button button-gold"
+                onclick="showPage('download')">
+                EXPLORE DOWNLOADS
+            </button>
+
+            <button class="button button-dark"
+                onclick="showPage('news')">
+                LATEST NEWS
+            </button>
+
+        </div>
+
+    </div>
+
+    <section class="section">
+
+        <div class="section-header">
+            <small>WELCOME TO SIAMESEPROJECT</small>
+            <h2>Enter a New Era</h2>
+            <p>
+                Your Cataclysm Talent Calculator experience starts here.
+            </p>
+        </div>
+
+        <div class="feature">
+
+            <h3>Cataclysm Talent Calculator</h3>
+
+            <p>
+                Plan your character talents and explore your build
+                possibilities with the Android application.
+                The SiameseProject experience is just beginning.
+            </p>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- DOWNLOAD -->
+
+<div class="page" id="download">
+
+    <section class="section">
+
+        <div class="section-header">
+            <small>GET THE APPLICATION</small>
+            <h2>Downloads</h2>
+            <p>
+                Choose your platform and discover SiameseProject.
+            </p>
+        </div>
+
+        <div class="download-grid">
+
+            <div class="download-card">
+
+                <span class="status">AVAILABLE NOW</span>
+
+                <h3>Android APK</h3>
+
+                <p>
+                    Download the Cataclysm Talent Calculator
+                    for your Android device.
+                </p>
+
+                <a class="button button-gold"
+                   href="YOUR_DIRECT_APK_DOWNLOAD_LINK"
+                   download>
+                    DOWNLOAD APK
+                </a>
+
+            </div>
+
+            <div class="download-card">
+
+                <span class="status soon">COMING SOON</span>
+
+                <h3>Windows EXE</h3>
+
+                <p>
+                    The Windows desktop version is currently
+                    in development.
+                </p>
+
+                <span class="disabled">
+                    NOT AVAILABLE YET
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- CREDITS -->
+
+<div class="page" id="credits">
+
+    <section class="section">
+
+        <div class="section-header">
+            <small>THE PEOPLE BEHIND THE PROJECT</small>
+            <h2>Credits</h2>
+            <p>
+                Every project has its creators.
+            </p>
+        </div>
+
+        <div class="credits-grid">
+
+            <div class="credit-card">
+                <h3>Teu</h3>
+                <p>
+                    Original creator of the
+                    Cataclysm Talent Calculator.
+                </p>
+            </div>
+
+            <div class="credit-card">
+                <h3>SiameseDev</h3>
+                <p>
+                    Responsible for adapting and packaging
+                    the Talent Calculator into an Android APK
+                    and developing SiameseProject.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- NEWS -->
+
+<div class="page" id="news">
+
+    <section class="section">
+
+        <div class="section-header">
+            <small>PROJECT UPDATES</small>
+            <h2>Latest News</h2>
+            <p>
+                Discover what's happening with SiameseProject.
+            </p>
+        </div>
+
+        <div class="news-card">
+
+            <div class="news-date">
+                PROJECT ANNOUNCEMENT
+            </div>
+
+            <h3>Cataclysm Talent Calculator Is Here!</h3>
+
+            <p>
+                The SiameseProject Cataclysm Talent Calculator
+                is now available for Android.
+                Download the APK and start planning your
+                character builds today.
+                <br><br>
+                The Windows EXE edition is also planned
+                and will be announced in a future update.
+            </p>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- REVELATION -->
+
+<div class="page" id="revelation">
+
+    <div class="revelation">
+
+        <div class="revelation-content">
+
+            <div class="revelation-label">
+                SIAMESEPROJECT
+            </div>
+
+            <h2>
+                SOMETHING
+                <span>IS COMING.</span>
+            </h2>
+
+            <div class="gold-line"></div>
+
+            <p>
+                A new chapter is approaching.
+                <br>
+                A major announcement is being prepared.
+                <br><br>
+                Something big will be revealed soon.
+                <br>
+                Stay tuned.
+            </p>
+
+            <br><br>
+
+            <span class="revelation-label">
+                THE REVELATION IS COMING
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+
+    <strong>SIAMESEPROJECT</strong>
+
+    <br>
+
+    CATACLYSM TALENT CALCULATOR
+
+    <br><br>
+
+    Not affiliated with Blizzard Entertainment.
+
+    <br>
+
+    © 2026 SiameseProject. All rights reserved.
+
+</footer>
+
+<script>
+
+function showPage(pageId, button) {
+
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+
+    document.getElementById(pageId).classList.add('active');
+
+    document.querySelectorAll('nav button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    if (button) {
+        button.classList.add('active');
+    } else {
+        document.querySelectorAll('nav button').forEach(btn => {
+            if (btn.textContent.toLowerCase() === pageId) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    document.getElementById('navigation').classList.remove('open');
+
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+function toggleMenu() {
+    document.getElementById('navigation').classList.toggle('open');
+}
+
+function closeMenu() {
+    document.getElementById('navigation').classList.remove('open');
+}
+
+</script>
+
+</body>
+</html>
